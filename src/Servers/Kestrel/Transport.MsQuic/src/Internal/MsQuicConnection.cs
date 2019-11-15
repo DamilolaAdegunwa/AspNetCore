@@ -6,13 +6,11 @@ using System.Runtime.InteropServices;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Connections.Abstractions.Features;
-using Microsoft.AspNetCore.Connections.Features;
 using static Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal.MsQuicNativeMethods;
 
 namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
 {
-    internal class MsQuicConnection : TransportConnection, IQuicStreamListenerFeature, IQuicCreateStreamFeature, IDisposable
+    internal class MsQuicConnection : TransportConnection, IDisposable
     {
         public MsQuicApi _api;
         private bool _disposed;
@@ -37,9 +35,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
             SetCallbackHandler();
 
             SetIdleTimeout(_context.Options.IdleTimeout);
-
-            Features.Set<IQuicStreamListenerFeature>(this);
-            Features.Set<IQuicCreateStreamFeature>(this);
 
             _log.NewConnection(ConnectionId);
         }
@@ -131,7 +126,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
             return MsQuicConstants.Success;
         }
 
-        public async ValueTask<ConnectionContext> AcceptAsync()
+        public async ValueTask<StreamContext> AcceptAsync()
         {
             if (await _acceptQueue.Reader.WaitToReadAsync())
             {

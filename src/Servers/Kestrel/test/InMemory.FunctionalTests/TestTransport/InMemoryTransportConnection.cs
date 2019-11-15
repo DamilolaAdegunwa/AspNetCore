@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
 {
-    internal class InMemoryTransportConnection : TransportConnection
+    internal class InMemoryTransportConnection : TransportConnectionBase
     {
         private readonly CancellationTokenSource _connectionClosedTokenSource = new CancellationTokenSource();
 

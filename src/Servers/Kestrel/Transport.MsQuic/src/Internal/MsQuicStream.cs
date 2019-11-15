@@ -17,7 +17,7 @@ using static Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal.MsQui
 
 namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
 {
-    internal class MsQuicStream : TransportConnection, IUnidirectionalStreamFeature
+    internal class MsQuicStream : TransportConnection
     {
         private Task _processingTask;
         private MsQuicConnection _connection;
@@ -55,12 +55,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
             var outputOptions = new PipeOptions(MemoryPool, PipeScheduler.Inline, PipeScheduler.ThreadPool, maxWriteBufferSize, maxWriteBufferSize / 2, useSynchronizationContext: false);
 
             var pair = DuplexPipe.CreateConnectionPair(inputOptions, outputOptions);
-
-            // TODO when stream is unidirectional, don't create an output pipe.
-            if (flags.HasFlag(QUIC_STREAM_OPEN_FLAG.UNIDIRECTIONAL))
-            {
-                Features.Set<IUnidirectionalStreamFeature>(this);
-            }
 
             // TODO populate the ITlsConnectionFeature (requires client certs). 
             var feature = new FakeTlsConnectionFeature();

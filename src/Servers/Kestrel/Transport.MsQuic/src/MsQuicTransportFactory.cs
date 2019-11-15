@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Connections;
+using Microsoft.AspNetCore.Connections.Abstractions;
 using Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic
 {
-    public class MsQuicTransportFactory : IConnectionListenerFactory
+    public class MsQuicTransportFactory : IMultiplexedConnectionListenerFactory
     {
         private MsQuicTrace _log;
         private IHostApplicationLifetime _applicationLifetime;
@@ -37,7 +38,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic
             _options = options.Value;
         }
 
-        public async ValueTask<IConnectionListener> BindAsync(EndPoint endpoint, CancellationToken cancellationToken = default)
+        public async ValueTask<IMultiplexedConnectionListener> BindAsync(EndPoint endpoint, CancellationToken cancellationToken = default)
         {
             var transport = new MsQuicConnectionListener(_options, _applicationLifetime, _log, endpoint);
             await transport.BindAsync();

@@ -27,7 +27,7 @@ namespace CodeGenerator
             }
             else if (args.Length < 4)
             {
-                Console.Error.WriteLine("Missing path to TransportConnection.Generated.cs");
+                Console.Error.WriteLine("Missing path to TransportConnectionBase.Generated.cs");
                 return 1;
             }
 
@@ -40,12 +40,12 @@ namespace CodeGenerator
             string knownHeadersPath,
             string httpProtocolFeatureCollectionPath,
             string httpUtilitiesPath,
-            string transportConnectionFeatureCollectionPath)
+            string transportConnectionBaseFeatureCollectionPath)
         {
             var knownHeadersContent = KnownHeaders.GeneratedFile();
             var httpProtocolFeatureCollectionContent = HttpProtocolFeatureCollection.GenerateFile();
             var httpUtilitiesContent = HttpUtilities.HttpUtilities.GeneratedFile();
-            var transportConnectionFeatureCollectionContent = TransportConnectionFeatureCollection.GenerateFile();
+            var transportConnectionBaseFeatureCollectionContent = TransportConnectionBaseFeatureCollection.GenerateFile();
 
             var existingKnownHeaders = File.Exists(knownHeadersPath) ? File.ReadAllText(knownHeadersPath) : "";
             if (!string.Equals(knownHeadersContent, existingKnownHeaders))
@@ -65,10 +65,10 @@ namespace CodeGenerator
                 File.WriteAllText(httpUtilitiesPath, httpUtilitiesContent);
             }
 
-            var existingTransportConnectionFeatureCollection = File.Exists(transportConnectionFeatureCollectionPath) ? File.ReadAllText(transportConnectionFeatureCollectionPath) : "";
-            if (!string.Equals(transportConnectionFeatureCollectionContent, existingTransportConnectionFeatureCollection))
+            var existingTransportConnectionBaseFeatureCollection = File.Exists(transportConnectionBaseFeatureCollectionPath) ? File.ReadAllText(transportConnectionBaseFeatureCollectionPath) : "";
+            if (!string.Equals(transportConnectionBaseFeatureCollectionContent, existingTransportConnectionBaseFeatureCollection))
             {
-                File.WriteAllText(transportConnectionFeatureCollectionPath, transportConnectionFeatureCollectionContent);
+                File.WriteAllText(transportConnectionBaseFeatureCollectionPath, transportConnectionBaseFeatureCollectionContent);
             }
         }
     }

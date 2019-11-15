@@ -3,7 +3,7 @@
 
 namespace CodeGenerator
 {
-    public class TransportConnectionFeatureCollection
+    public class TransportConnectionBaseFeatureCollection
     {
         public static string GenerateFile()
         {
@@ -12,7 +12,6 @@ namespace CodeGenerator
             var features = new[]
             {
                 "IConnectionIdFeature",
-                "IConnectionTransportFeature",
                 "IConnectionItemsFeature",
                 "IMemoryPoolFeature",
                 "IConnectionLifetimeFeature"
@@ -24,7 +23,7 @@ using Microsoft.AspNetCore.Http.Features;";
 
             return FeatureCollectionGenerator.GenerateFile(
                 namespaceName: "Microsoft.AspNetCore.Connections",
-                className: "TransportConnection",
+                className: "TransportConnectionBase",
                 allFeatures: features,
                 implementedFeatures: features,
                 extraUsings: usings,
