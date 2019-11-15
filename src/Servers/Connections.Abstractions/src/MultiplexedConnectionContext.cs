@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Features;
 
-namespace Microsoft.AspNetCore.Connections.Abstractions
+namespace Microsoft.AspNetCore.Connections
 {
     public abstract class MultiplexedConnectionContext : ConnectionContextBase
     {
         public abstract ValueTask<StreamContext> AcceptAsync();
-        public abstract ValueTask<StreamContext> ConnectAsync(IFeatureCollection features = null, bool unidirectional = false); // undirectional or bidirectional stream, like half open/half close
+        public abstract ValueTask<StreamContext> ConnectAsync(IFeatureCollection features = null, bool unidirectional = false);
     }
 }

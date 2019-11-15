@@ -30,8 +30,18 @@ namespace CodeGenerator
                 Console.Error.WriteLine("Missing path to TransportConnectionBase.Generated.cs");
                 return 1;
             }
+            else if (args.Length < 5)
+            {
+                Console.Error.WriteLine("Missing path to TransportConnectio.Generated.cs");
+                return 1;
+            }
+            else if (args.Length < 6)
+            {
+                Console.Error.WriteLine("Missing path to TransportStream.Generated.cs");
+                return 1;
+            }
 
-            Run(args[0], args[1], args[2], args[3]);
+            Run(args[0], args[1], args[2], args[3], args[4], args[5]);
 
             return 0;
         }
@@ -40,35 +50,31 @@ namespace CodeGenerator
             string knownHeadersPath,
             string httpProtocolFeatureCollectionPath,
             string httpUtilitiesPath,
-            string transportConnectionBaseFeatureCollectionPath)
+            string transportConnectionBaseFeatureCollectionPath,
+            string transportConnectionFeatureCollectionPath,
+            string transportStreamFeatureCollectionPath)
         {
             var knownHeadersContent = KnownHeaders.GeneratedFile();
             var httpProtocolFeatureCollectionContent = HttpProtocolFeatureCollection.GenerateFile();
             var httpUtilitiesContent = HttpUtilities.HttpUtilities.GeneratedFile();
             var transportConnectionBaseFeatureCollectionContent = TransportConnectionBaseFeatureCollection.GenerateFile();
+            var transportConnectionFeatureCollectionContent = TransportConnectionFeatureCollection.GenerateFile();
+            var transportStreamFeatureCollectionContent = TransportStreamFeatureCollection.GenerateFile();
 
-            var existingKnownHeaders = File.Exists(knownHeadersPath) ? File.ReadAllText(knownHeadersPath) : "";
-            if (!string.Equals(knownHeadersContent, existingKnownHeaders))
-            {
-                File.WriteAllText(knownHeadersPath, knownHeadersContent);
-            }
+            UpdateFile(knownHeadersPath, knownHeadersContent);
+            UpdateFile(httpProtocolFeatureCollectionPath, httpProtocolFeatureCollectionContent);
+            UpdateFile(httpUtilitiesPath, httpUtilitiesContent);
+            UpdateFile(transportConnectionBaseFeatureCollectionPath, transportConnectionBaseFeatureCollectionContent);
+            UpdateFile(transportConnectionFeatureCollectionPath, transportConnectionFeatureCollectionContent);
+            UpdateFile(transportStreamFeatureCollectionPath, transportStreamFeatureCollectionContent);
+        }
 
-            var existingHttpProtocolFeatureCollection = File.Exists(httpProtocolFeatureCollectionPath) ? File.ReadAllText(httpProtocolFeatureCollectionPath) : "";
-            if (!string.Equals(httpProtocolFeatureCollectionContent, existingHttpProtocolFeatureCollection))
+        public static void UpdateFile(string path, string content)
+        {
+            var existingContent = File.Exists(path) ? File.ReadAllText(path) : "";
+            if (!string.Equals(content, existingContent))
             {
-                File.WriteAllText(httpProtocolFeatureCollectionPath, httpProtocolFeatureCollectionContent);
-            }
-
-            var existingHttpUtilities = File.Exists(httpUtilitiesPath) ? File.ReadAllText(httpUtilitiesPath) : "";
-            if (!string.Equals(httpUtilitiesContent, existingHttpUtilities))
-            {
-                File.WriteAllText(httpUtilitiesPath, httpUtilitiesContent);
-            }
-
-            var existingTransportConnectionBaseFeatureCollection = File.Exists(transportConnectionBaseFeatureCollectionPath) ? File.ReadAllText(transportConnectionBaseFeatureCollectionPath) : "";
-            if (!string.Equals(transportConnectionBaseFeatureCollectionContent, existingTransportConnectionBaseFeatureCollection))
-            {
-                File.WriteAllText(transportConnectionBaseFeatureCollectionPath, transportConnectionBaseFeatureCollectionContent);
+                File.WriteAllText(path, content);
             }
         }
     }

@@ -16,7 +16,7 @@ using static Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal.MsQui
 
 namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
 {
-    internal class MsQuicStream : TransportConnection
+    internal class MsQuicStream : TransportStream
     {
         private Task _processingTask;
         private MsQuicConnection _connection;
@@ -32,7 +32,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
         private MemoryHandle[] _bufferArrays;
         private GCHandle _sendBuffer;
 
-        public MsQuicStream(MsQuicApi api, MsQuicConnection connection, MsQuicTransportContext context, QUIC_STREAM_OPEN_FLAG flags, IntPtr nativeObjPtr)
+        public MsQuicStream(MsQuicApi api, MsQuicConnection connection, MsQuicTransportContext context, Direction direction, IntPtr nativeObjPtr)
         {
             Debug.Assert(connection != null);
 
@@ -59,6 +59,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
             var feature = new FakeTlsConnectionFeature();
             Features.Set<ITlsConnectionFeature>(feature);
 
+            Direction = direction;
             Transport = pair.Transport;
             Application = pair.Application;
 
@@ -73,6 +74,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
         public override MemoryPool<byte> MemoryPool { get; }
         public PipeWriter Input => Application.Output;
         public PipeReader Output => Application.Input;
+
+        public MsQuicApi Api { get; set; }
+        public override string StreamId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override Direction Direction { get; }
 
         public override string ConnectionId {
             get
@@ -269,8 +274,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.MsQuic.Internal
         private void Shutdown(Exception shutdownReason)
         {
         }
-
-        public MsQuicApi Api { get; set; }
 
         internal static uint NativeCallbackHandler(
            IntPtr stream,

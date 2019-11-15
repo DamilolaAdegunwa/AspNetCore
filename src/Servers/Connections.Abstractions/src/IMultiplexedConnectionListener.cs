@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Connections.Abstractions
+namespace Microsoft.AspNetCore.Connections
 {
     /// <summary>
     /// Defines an interface that represents a listener bound to a specific <see cref="EndPoint"/>.
@@ -23,7 +23,7 @@ namespace Microsoft.AspNetCore.Connections.Abstractions
         /// </summary>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A <see cref="ValueTask{MultiplexedConnectionContext}"/> that completes when a connection is accepted, yielding the <see cref="MultiplexedConnectionContext" /> representing the connection.</returns>
-        ValueTask<MultiplexedConnectionContext> AcceptMultiplexedAsync(CancellationToken cancellationToken = default);
+        ValueTask<MultiplexedConnectionContext> AcceptAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Stops listening for incoming connections.

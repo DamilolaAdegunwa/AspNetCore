@@ -25,7 +25,8 @@ namespace Microsoft.AspNetCore.Connections
 
     public enum Direction
     {
-        BiDirectional,
+        BidirectionalInbound,
+        BidirectionalOutbound,
         UnidirectionalInbound,
         UnidirectionalOutbound
     }

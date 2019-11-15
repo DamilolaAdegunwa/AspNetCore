@@ -17,6 +17,12 @@
     <Compile Include="$(KestrelSharedSourceRoot)\TransportConnection.cs" Link="Internal\TransportConnection.cs" />
     <Compile Include="$(KestrelSharedSourceRoot)\TransportConnection.Generated.cs" Link="Internal\TransportConnection.Generated.cs" />
     <Compile Include="$(KestrelSharedSourceRoot)\TransportConnection.FeatureCollection.cs" Link="Internal\TransportConnection.FeatureCollection.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)\TransportStream.cs" Link="Internal\TransportStream.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)\TransportStream.Generated.cs" Link="Internal\TransportStream.Generated.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)\TransportStream.FeatureCollection.cs" Link="Internal\TransportStream.FeatureCollection.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)\TransportConnectionBase.cs" Link="Internal\TransportConnectionBase.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)\TransportConnectionBase.Generated.cs" Link="Internal\TransportConnectionBase.Generated.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)\TransportConnectionBase.FeatureCollection.cs" Link="Internal\TransportConnectionBase.FeatureCollection.cs" />
   </ItemGroup>
   
   <ItemGroup>

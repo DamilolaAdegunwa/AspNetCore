@@ -19,31 +19,46 @@ namespace Microsoft.AspNetCore.Server.Kestrel.FunctionalTests
             var httpHeadersGeneratedPath = Path.Combine(AppContext.BaseDirectory,"shared", "GeneratedContent", "HttpHeaders.Generated.cs");
             var httpProtocolGeneratedPath = Path.Combine(AppContext.BaseDirectory,"shared", "GeneratedContent", "HttpProtocol.Generated.cs");
             var httpUtilitiesGeneratedPath = Path.Combine(AppContext.BaseDirectory,"shared", "GeneratedContent", "HttpUtilities.Generated.cs");
+            var transportConnectionBaseGeneratedPath = Path.Combine(AppContext.BaseDirectory,"shared", "GeneratedContent", "TransportConnectionBase.Generated.cs");
             var transportConnectionGeneratedPath = Path.Combine(AppContext.BaseDirectory,"shared", "GeneratedContent", "TransportConnection.Generated.cs");
+            var transportStreamGeneratedPath = Path.Combine(AppContext.BaseDirectory,"shared", "GeneratedContent", "TransportStream.Generated.cs");
 
             var testHttpHeadersGeneratedPath = Path.GetTempFileName();
             var testHttpProtocolGeneratedPath = Path.GetTempFileName();
             var testHttpUtilitiesGeneratedPath = Path.GetTempFileName();
+            var testTransportConnectionBaseGeneratedPath = Path.GetTempFileName();
             var testTransportConnectionGeneratedPath = Path.GetTempFileName();
+            var testTransportStreamGeneratedPath = Path.GetTempFileName();
 
             try
             {
                 var currentHttpHeadersGenerated = File.ReadAllText(httpHeadersGeneratedPath);
                 var currentHttpProtocolGenerated = File.ReadAllText(httpProtocolGeneratedPath);
                 var currentHttpUtilitiesGenerated = File.ReadAllText(httpUtilitiesGeneratedPath);
+                var currentTransportConnectionBaseGenerated = File.ReadAllText(transportConnectionBaseGeneratedPath);
                 var currentTransportConnectionGenerated = File.ReadAllText(transportConnectionGeneratedPath);
+                var currentTransportStreamGenerated = File.ReadAllText(transportStreamGeneratedPath);
 
-                CodeGenerator.Program.Run(testHttpHeadersGeneratedPath, testHttpProtocolGeneratedPath, testHttpUtilitiesGeneratedPath, testTransportConnectionGeneratedPath);
+                CodeGenerator.Program.Run(testHttpHeadersGeneratedPath,
+                    testHttpProtocolGeneratedPath,
+                    testHttpUtilitiesGeneratedPath,
+                    testTransportConnectionBaseGeneratedPath,
+                    testTransportConnectionGeneratedPath,
+                    testTransportStreamGeneratedPath);
 
                 var testHttpHeadersGenerated = File.ReadAllText(testHttpHeadersGeneratedPath);
                 var testHttpProtocolGenerated = File.ReadAllText(testHttpProtocolGeneratedPath);
                 var testHttpUtilitiesGenerated = File.ReadAllText(testHttpUtilitiesGeneratedPath);
+                var testTransportConnectionBaseGenerated = File.ReadAllText(testTransportConnectionBaseGeneratedPath);
                 var testTransportConnectionGenerated = File.ReadAllText(testTransportConnectionGeneratedPath);
+                var testTransportStreamGenerated = File.ReadAllText(testTransportStreamGeneratedPath);
 
                 Assert.Equal(currentHttpHeadersGenerated, testHttpHeadersGenerated, ignoreLineEndingDifferences: true);
                 Assert.Equal(currentHttpProtocolGenerated, testHttpProtocolGenerated, ignoreLineEndingDifferences: true);
                 Assert.Equal(currentHttpUtilitiesGenerated, testHttpUtilitiesGenerated, ignoreLineEndingDifferences: true);
+                Assert.Equal(currentTransportConnectionBaseGenerated, testTransportConnectionBaseGenerated, ignoreLineEndingDifferences: true);
                 Assert.Equal(currentTransportConnectionGenerated, testTransportConnectionGenerated, ignoreLineEndingDifferences: true);
+                Assert.Equal(currentTransportStreamGenerated, testTransportStreamGenerated, ignoreLineEndingDifferences: true);
 
             }
             finally
@@ -51,7 +66,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.FunctionalTests
                 File.Delete(testHttpHeadersGeneratedPath);
                 File.Delete(testHttpProtocolGeneratedPath);
                 File.Delete(testHttpUtilitiesGeneratedPath);
+                File.Delete(testTransportConnectionBaseGeneratedPath);
                 File.Delete(testTransportConnectionGeneratedPath);
+                File.Delete(testTransportStreamGeneratedPath);
             }
         }
     }

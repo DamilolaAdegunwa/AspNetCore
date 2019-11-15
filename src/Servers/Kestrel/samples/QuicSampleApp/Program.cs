@@ -48,26 +48,28 @@ namespace QuicSampleApp
                      {
                          listenOptions.Use((next) =>
                          {
-                             return async connection =>
-                             {
-                                 var streamFeature = connection.Features.Get<IQuicStreamListenerFeature>();
-                                 if (streamFeature != null)
-                                 {
-                                     while (true)
-                                     {
-                                         var connectionContext = await streamFeature.AcceptAsync();
-                                         if (connectionContext == null)
-                                         {
-                                             return;
-                                         }
-                                         _ = next(connectionContext);
-                                     }
-                                 }
-                                 else
-                                 {
-                                     await next(connection);
-                                 }
-                             };
+                             //return async connection =>
+                             //{
+                             //    await next(connection);
+
+                             //    var streamFeature = connection.Features.Get<IQuicStreamListenerFeature>();
+                             //    if (streamFeature != null)
+                             //    {
+                             //        while (true)
+                             //        {
+                             //            var connectionContext = await streamFeature.AcceptAsync();
+                             //            if (connectionContext == null)
+                             //            {
+                             //                return;
+                             //            }
+                             //            _ = next(connectionContext);
+                             //        }
+                             //    }
+                             //    else
+                             //    {
+                             //        await next(connection);
+                             //    }
+                             //};
                          });
 
                          async Task EchoServer(ConnectionContext connection)
