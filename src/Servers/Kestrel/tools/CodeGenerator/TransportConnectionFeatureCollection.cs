@@ -3,7 +3,7 @@
 
 namespace CodeGenerator
 {
-    public class TransportConnectionBaseFeatureCollection
+    public class TransportConnectionFeatureCollection
     {
         public static string GenerateFile()
         {
@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.Http.Features;";
 
             return FeatureCollectionGenerator.GenerateFile(
                 namespaceName: "Microsoft.AspNetCore.Connections",
-                className: "TransportConnectionBase",
+                className: "TransportConnection",
                 allFeatures: features,
                 implementedFeatures: features,
                 extraUsings: usings,
